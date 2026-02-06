@@ -29,8 +29,8 @@ while True:
     A = me.A(rand_gen.uniform(1e-13, 1e-11), unit="J/m")  #  1e-13 - 1e-11 J/m
     K1 = me.Ku(rand_gen.uniform(10e3, 10e6), unit="J/m3")  # 10 - 100000 kA/m
 
-    l_A = np.sqrt(2*A/(u.constants.mu0*Ms**2)).to(u.nm)
-    l_K = np.sqrt(A/K1).to(u.nm)
+    l_A = np.sqrt(2*A.q/(u.constants.mu0*Ms.q**2)).to(u.nm)
+    l_K = np.sqrt(A.q/K1.q).to(u.nm)
 
     print(f"Exchange length l_A: {l_A}, Domain wall thickness l_K: {l_K}")
 
