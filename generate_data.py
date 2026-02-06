@@ -13,8 +13,12 @@ import numpy as np
 
 u.set_enabled_equivalencies(u.magnetic_flux_field())
 
+job = os.getenv("SLURM_ARRAY_JOB_ID") or os.getenv("SLURM_JOB_ID", "local")
+task = os.getenv("SLURM_ARRAY_TASK_ID", "0")
+proc = os.getenv("SLURM_PROCID") or os.getenv("SLURM_LOCALID") or "0"
+
 current_directory = os.getcwd()
-working_path = f"{current_directory}/data/{os.getenv('SLURM_JOB_ID', 'local')}_{os.getenv('SLURM_ARRAY_TASK_ID', 'local')}"
+working_path = f"{current_directory}/data/{job}_{task}_{proc}"
 os.mkdir(working_path)
 
 # Material parameters
