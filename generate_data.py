@@ -23,9 +23,21 @@ os.mkdir(working_path)
 
 # Material parameters
 rand_gen = np.random.default_rng()
-Ms = me.Ms(968970.0485684853)  # me.Ms((rand_gen.uniform(0.1, 5) * u.T).to("A/m"))  # 0.1 - 5 T
-A = me.A(1.4827427726238164e-12)  # me.A(rand_gen.uniform(1e-13, 1e-11), unit="J/m")  #  1e-13 - 1e-11 J/m
-K = me.Ku(1833283.3521620037)  # me.Ku(rand_gen.uniform(10e3, 10e6), unit="J/m3")  # 10 - 100000 kA/m
+
+while True:
+    Ms = me.Ms((rand_gen.uniform(0.1, 5) * u.T).to("A/m"))  # 0.1 - 5 T
+    A = me.A(rand_gen.uniform(1e-13, 1e-11), unit="J/m")  #  1e-13 - 1e-11 J/m
+    K1 = me.Ku(rand_gen.uniform(10e3, 10e6), unit="J/m3")  # 10 - 100000 kA/m
+
+    l_A = np.sqrt(2*A/(u.constants.mu0*Ms**2)).to(u.nm)
+    l_K = np.sqrt(A/K1).to(u.nm)
+
+    print(f"Exchange length l_A: {l_A}, Domain wall thickness l_K: {l_K}")
+
+    threshold = 1 * u.nm
+    if l_A >= threshold and l_K >= threshold:
+        break
+
 D = me.Entity("DemagnetizingFactor", 1 / 3)  # Demag factor
 
 mesh = Mesh("cube50_singlegrain_msize1")
@@ -37,7 +49,7 @@ mat = Materials(
             "phi": 0.0,
             "Ms": Ms,
             "A": A,
-            "K1": K,
+            "K1": K1,
         },
         {},  # non-magnetic material
         {},  # Shell
@@ -50,10 +62,10 @@ par = Parameters(
     m_vect=[0, 0, 1],
     h_start=(1 * u.T).to("A/m"),
     h_final=(-10 * u.T).to("A/m"),
-    h_step=(-10 * u.mT).to("A/m"), # Change
+    h_step=(-5 * u.mT).to("A/m"),
     h_vect=[0, 0.01745, 0.99984], 
     m_step=(2 * Ms.q).to("A/m"),
-    m_final=(-0.5 * Ms.q).to("A/m"),  # To check
+    m_final=(-0.5 * Ms.q).to("A/m"),
     tol_fun=1e-10,
     tol_h_mag_factor=1,
     precond_iter=10,
@@ -81,7 +93,7 @@ me.io.entities_to_file(
     "Results for a single grain cube of 50 nm with random intrinsic material parameters.",
     Ms=Ms,
     A=A,
-    K=K,
+    K=K1,
     D=D,
     Hc=extrinsic_properties.Hc,
     Mr=extrinsic_properties.Mr,
