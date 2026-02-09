@@ -9,7 +9,7 @@
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=18
 #SBATCH --mem=0
-#SBATCH -t 12:00:00
+#SBATCH -t 4:00:00
 
 set -euo pipefail
 
@@ -29,7 +29,7 @@ print("devices:", jax.devices())
 PY
 
 # Run the actual workload
-srun bash -lc '
+srun --kill-on-bad-exit=0 bash -lc '
   export CUDA_VISIBLE_DEVICES=$SLURM_LOCALID
   echo "RUN proc=$SLURM_PROCID local=$SLURM_LOCALID cuda=$CUDA_VISIBLE_DEVICES"
   time pixi run python generate_data.py
