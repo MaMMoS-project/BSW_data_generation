@@ -5,7 +5,7 @@
 #SpontaneousMagnetization,ExchangeStiffnessConstant,UniaxialAnisotropyConstant,DemagnetizingFactor,CoercivityHcExternal,Remanence,MaximumEnergyProduct,
 #https://w3id.org/emmo/domain/magnetic_material#EMMO_032731f8-874d-5efb-9c9d-6dafaa17ef25,https://w3id.org/emmo/domain/magnetic_material#EMMO_526ed2a5-a017-590e-8eb8-8a900f2b3b78,https://w3id.org/emmo/domain/magnetic_material#EMMO_49a882d1-9ce7-522b-91e7-3a460f25f5ac,https://w3id.org/emmo/domain/magnetic_material#EMMO_0f2b5cc9-d00a-5030-8448-99ba6b7dfd1e,https://w3id.org/emmo/domain/magnetic_material#EMMO_fe101d1d-f1f7-54f8-886b-fa6d6052ce98,https://w3id.org/emmo/domain/magnetic_material#EMMO_8fc78216-4859-53c2-b41e-e38062b04054,https://w3id.org/emmo/domain/magnetic_material#EMMO_e1028129-c23e-57ac-9174-2f34ddbf3926,
 #A / m,J / m,J / m3,,A / m,A / m,N / m2,
-Ms,A,K,D,Hc,Mr,BHmax,filepath
+Ms,A,K1,D,Hc,Mr,BHmax,filepath
 3067036.410170976,8.438745273264923e-12,5675844.780360899,0.3333333333333333,1199601.3971166913,3041986.392923244,2884143.309802217,data/346982_0_0/parameters.yaml
 2970993.8908006456,7.627636333092164e-12,3044310.1338085285,0.3333333333333333,419724.57978836534,2894615.0279873647,2500391.9360187696,data/346982_0_1/parameters.yaml
 679871.2942858334,3.3328483720669966e-12,2040252.9541699644,0.3333333333333333,3941062.654426917,679658.7728592122,145112.8145536963,data/346982_0_2/parameters.yaml
