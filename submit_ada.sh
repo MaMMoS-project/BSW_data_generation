@@ -32,5 +32,5 @@ PY
 srun --kill-on-bad-exit=0 bash -lc '
   export CUDA_VISIBLE_DEVICES=$SLURM_LOCALID
   echo "RUN proc=$SLURM_PROCID local=$SLURM_LOCALID cuda=$CUDA_VISIBLE_DEVICES"
-  time pixi run python generate_data.py
+  time pixi run single-sim
 '
