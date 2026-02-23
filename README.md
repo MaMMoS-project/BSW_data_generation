@@ -58,7 +58,7 @@ This executes `generate_data.py`, which:
 4. Saves a `parameters.yaml` file with both intrinsic inputs and computed extrinsic outputs.
 5. Cleans up intermediate simulation files (keeping only `.csv` data and metadata).
 
-During the hysteresis loop, if the magnetisation does not flip direction by 10 T, the simulation is terminated early to save time, and the results are recorded as NaNs.
+During the hysteresis loop, if the magnetisation does not flip direction by -10 T, the simulation is terminated early to save time, and the results are recorded as NaNs.
 
 ### Example batch simulations on SLURM (HPC)
 
@@ -94,7 +94,7 @@ This executes `collect_data.py`, which scans `data/**/parameters.yaml`, concaten
 |---|---|---|
 | `Ms` | Saturation magnetisation | A/m |
 | `A` | Exchange stiffness constant | J/m |
-| `K` | Uniaxial anisotropy constant | J/m³ |
+| `K1` | Uniaxial anisotropy constant | J/m³ |
 | `D` | Demagnetising factor | — |
 | `Hc` | Coercivity | A/m |
 | `Mr` | Remanence | A/m |
@@ -102,18 +102,3 @@ This executes `collect_data.py`, which scans `data/**/parameters.yaml`, concaten
 | `filepath` | Path to the source `parameters.yaml` | — |
 
 If any simulations failed or were terminated early, their extrinsic properties will be recorded as NaNs in the dataset. Practically this looks like an empty entry in the CSV, for Hc, Mr, and BHmax.
-
-## Project Structure
-
-```
-├── generate_data.py      # Single simulation: sample params → run loop → save results
-├── collect_data.py       # Aggregate all results into full.csv
-├── submit_ada.sh         # SLURM batch submission script
-├── pixi.toml             # Pixi environment and task definitions
-├── full.csv              # Collected dataset (generated)
-└── data/                 # Per-simulation output directories
-    └── <job_id>/
-        ├── parameters.yaml   # Intrinsic + extrinsic parameters
-        ├── cube.csv           # Raw hysteresis loop data
-        └── info.json          # Simulation metadata
-```
