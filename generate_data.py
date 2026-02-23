@@ -103,7 +103,7 @@ me.io.entities_to_file(
     "Results for a single grain cube of 50 nm with random intrinsic material parameters.",
     Ms=Ms,
     A=A,
-    K=K1,
+    K1=K1,
     D=D,
     Hc=Hc,
     Mr=Mr,
