@@ -17,8 +17,13 @@ for k, v in collection.items():
     collection[k] = me.concat_flat(*v)
 
 me.io.entities_to_file(
-    "full.csv",
-    "Single grain cube of 50 nm with random intrinsic material parameters. Generated based on the code in https://github.com/MaMMoS-project/BSW_data_generation",
+    "single_grain_cube_50nm_aligned.csv",
+    (
+        "Micromagnetic hysteresis simulations of a 50 nm single-grain"
+        " cube with randomly sampled Ms, A, and K1. Applied field and"
+        " anisotropy axis aligned with the cube edge."
+        " Source: https://github.com/MaMMoS-project/BSW_data_generation"
+    ),
     **collection,
-    filepath=filepath
+    filepath=filepath,
 )
