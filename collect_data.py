@@ -16,4 +16,9 @@ for file in paths:
 for k, v in collection.items():
     collection[k] = me.concat_flat(*v)
 
-me.io.entities_to_file("full.csv", **collection, filepath=filepath)
+me.io.entities_to_file(
+    "full.csv",
+    "Single grain cube of 50 nm with random intrinsic material parameters. Generated based on the code in https://github.com/MaMMoS-project/BSW_data_generation",
+    **collection,
+    filepath=filepath
+)

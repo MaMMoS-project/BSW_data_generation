@@ -29,8 +29,8 @@ while True:
     A = me.A(rand_gen.uniform(1e-13, 1e-11), unit="J/m")  #  1e-13 - 1e-11 J/m
     K1 = me.Ku(rand_gen.uniform(10e3, 10e6), unit="J/m3")  # 10 - 100000 kA/m
 
-    l_A = np.sqrt(2*A.q/(u.constants.mu0*Ms.q**2)).to(u.nm)
-    l_K = np.sqrt(A.q/K1.q).to(u.nm)
+    l_A = np.sqrt(2 * A.q / (u.constants.mu0 * Ms.q**2)).to(u.nm)
+    l_K = np.sqrt(A.q / K1.q).to(u.nm)
 
     print(f"Exchange length l_A: {l_A}, Domain wall thickness l_K: {l_K}")
 
@@ -63,7 +63,7 @@ par = Parameters(
     h_start=(1 * u.T).to("A/m"),
     h_final=(-10 * u.T).to("A/m"),
     h_step=(-5 * u.mT).to("A/m"),
-    h_vect=[0, 0.01745, 0.99984], 
+    h_vect=[0, 0.01745, 0.99984],
     m_step=(2 * Ms.q).to("A/m"),
     m_final=(-0.5 * Ms.q).to("A/m"),
     tol_fun=1e-10,
@@ -82,11 +82,21 @@ sim.run_loop(outdir=working_path, name="cube")
 
 results = read_result(outdir=working_path, name="cube")
 
-extrinsic_properties = mammos_analysis.hysteresis.extrinsic_properties(
-    H=results.H,
-    M=results.M,
-    demagnetization_coefficient=D.value,
-)
+try:
+    extrinsic_properties = mammos_analysis.hysteresis.extrinsic_properties(
+        H=results.H,
+        M=results.M,
+        demagnetization_coefficient=D.value,
+    )
+    Hc = extrinsic_properties.Hc
+    Mr = extrinsic_properties.Mr
+    BHmax = extrinsic_properties.BHmax
+except Exception as e:
+    print(f"Failed to calculate extrinsic properties: {e}")
+    print("Using NaN values for Hc, Mr, and BHmax")
+    Hc = me.Hc(np.nan)
+    Mr = me.Mr(np.nan)
+    BHmax = me.BHmax(np.nan)
 
 me.io.entities_to_file(
     os.path.join(working_path, "parameters.yaml"),
@@ -95,13 +105,13 @@ me.io.entities_to_file(
     A=A,
     K=K1,
     D=D,
-    Hc=extrinsic_properties.Hc,
-    Mr=extrinsic_properties.Mr,
-    BHmax=extrinsic_properties.BHmax,
+    Hc=Hc,
+    Mr=Mr,
+    BHmax=BHmax,
 )
 
 # Remove all files apart from parameter file, csv, and info file
-pattern = os.path.join(working_path, 'cube*')
+pattern = os.path.join(working_path, "cube*")
 files_to_remove = glob.glob(pattern)
 
 for file_path in files_to_remove:
